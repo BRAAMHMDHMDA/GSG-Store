@@ -64,9 +64,7 @@
                     </tbody>
                 </table>
                 <div class="card-footer">
-                    <div class="pagination justify-content-left">
                         {{ $currencies->links() }}
-                    </div>
                 </div>
             </div>
         @else

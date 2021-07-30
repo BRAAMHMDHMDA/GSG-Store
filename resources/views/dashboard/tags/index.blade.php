@@ -54,9 +54,7 @@
                     </tbody>
                 </table>
                 <div class="card-footer">
-                    <div class="pagination justify-content-left">
                         {{ $tags->links() }}
-                    </div>
                 </div>
             </div>
         @else
