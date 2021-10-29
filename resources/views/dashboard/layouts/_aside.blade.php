@@ -1,7 +1,7 @@
 <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true">
     <div class="navbar-header">
         <ul class="nav navbar-nav flex-row">
-            <li class="nav-item mr-auto"><a class="navbar-brand" href="{{ route('home') }}"><span class="brand-logo">
+            <li class="nav-item mr-auto"><a class="navbar-brand" href="{{ route('dashboard.home') }}"><span class="brand-logo">
                             <svg viewbox="0 0 139 95" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="24">
                                 <defs>
                                     <lineargradient id="linearGradient-1" x1="100%" y1="10.5120544%" x2="50%" y2="89.4879456%">
@@ -25,7 +25,7 @@
                                     </g>
                                 </g>
                             </svg></span>
-                    <h2 class="brand-text">Nbras Store</h2>
+                    <h2 class="brand-text">Npras Store</h2>
                 </a></li>
             <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pr-0" data-toggle="collapse"><i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i><i class="d-none d-xl-block collapse-toggle-icon font-medium-4  text-primary" data-feather="disc" data-ticon="disc"></i></a></li>
         </ul>
@@ -33,37 +33,99 @@
     <div class="shadow-bottom"></div>
     <div class="main-menu-content">
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-            <li class="nav-item {{ Route::is('home')?'active':'' }}">
-                <a class="d-flex align-items-center " href="{{route('home')}}">
-                    <i data-feather="home"></i>
-                    <span class="menu-title text-truncate" data-i18n="Dashboards">Home</span>
-                </a>
-            </li>
+            @can('home-show')
+                <li class="nav-item {{ Route::is('dashboard.home')?'active':'' }}">
+                    <a class="d-flex align-items-center " href="{{route('dashboard.home')}}">
+                        <i data-feather="home"></i>
+                        <span class="menu-title text-truncate" data-i18n="Dashboards">Home</span>
+                    </a>
+                </li>
+            @endcan
+            @can('admin-list')
+                <li class=" nav-item  {{ Route::is('admins.*')?'active':'' }}">
+                    <a class="d-flex align-items-center" href="{{ route('admins.index') }}">
+                        <i data-feather="users"></i>
+                        <span class="menu-title text-truncate" data-i18n="admins">Admins</span>
+                    </a>
+                </li>
+            @endcan
+            @can('role-list')
+                <li class=" nav-item  {{ Route::is('roles.*')?'active':'' }}">
+                    <a class="d-flex align-items-center" href="{{ route('roles.index') }}">
+                        <i data-feather="shield"></i>
+                        <span class="menu-title text-truncate" data-i18n="roles">Roles & permissions</span>
+                    </a>
+                </li>
+            @endcan
+            @can('category-list')
+                <li class=" nav-item {{ Route::is('categories.index')?'active':'' }}">
+                    <a class="d-flex align-items-center" href="{{ route('categories.index') }}">
+                        <i data-feather='grid'></i>
+                        <span class="menu-title text-truncate">Categories</span>
+                    </a>
+                </li>
+            @endcan
+            @can('brand-list')
+                <li class=" nav-item {{ Route::is('brands.index')?'active':'' }}">
+                    <a class="d-flex align-items-center" href="{{ route('brands.index') }}">
+                        <i data-feather='award'></i>
+                        <span class="menu-title text-truncate">Brands</span>
+                    </a>
+                </li>
+            @endcan
+            @can('tag-list')
+                <li class=" nav-item {{ Route::is('tags.index')?'active':'' }}">
+                    <a class="d-flex align-items-center" href="{{ route('tags.index') }}">
+                        <i data-feather='tag'></i>
+                        <span class="menu-title text-truncate">Tags</span>
+                    </a>
+                </li>
+            @endcan
+            @can('currency-list')
+                <li class=" nav-item {{ Route::is('currencies.index')?'active':'' }}">
+                    <a class="d-flex align-items-center" href="{{ route('currencies.index') }}">
+                        <i data-feather='dollar-sign'></i>
+                        <span class="menu-title text-truncate">Currencies</span>
+                    </a>
+                </li>
+            @endcan
+            @can('product-list')
+                <li class="nav-item">
+                    <a class="d-flex align-items-center">
+                        <i data-feather="shopping-cart"></i>
+                        <span class="menu-title text-truncate" data-i18n="products">Products</span>
+                    </a>
+                    <ul class="menu-content">
+                        <li class="{{ Route::is('products.index')?'active':'' }}">
+                            <a class="d-flex align-items-center" href="{{route('products.index')}}">
+                                <i data-feather='list'></i>
+                                <span class="menu-item text-truncate" data-i18n="products-list">List Products</span>
+                            </a>
+                        </li>
+                        <li class="{{ Route::is('products.trash')?'active':'' }}">
+                            <a class="d-flex align-items-center" href="{{route('products.trash')}}">
+                                <i data-feather='trash-2'></i>
+                                <span class="menu-item text-truncate" data-i18n="trash">Trashed Products</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            @endcan
+            @can('order-list')
+                <li class=" nav-item {{ Route::is('orders.*')?'active':'' }}">
+                    <a class="d-flex align-items-center" href="{{ route('orders.index') }}">
+                        <i data-feather='layers'></i>
+                        <span class="menu-title text-truncate">Orders</span>
+                    </a>
+                </li>
+            @endcan
 
-            <li class=" nav-item {{ Route::is('categories.index')?'active':'' }}">
-                <a class="d-flex align-items-center" href="{{ route('categories.index') }}">
-                    <i data-feather='grid'></i>
-                    <span class="menu-title text-truncate">Categories</span>
-                </a>
-            </li>
-            <li class=" nav-item {{ Route::is('currencies.index')?'active':'' }}">
-                <a class="d-flex align-items-center" href="{{ route('currencies.index') }}">
-                    <i data-feather='dollar-sign'></i>
-                    <span class="menu-title text-truncate">Currencies</span>
-                </a>
-            </li>
-            <li class=" nav-item {{ Route::is('tags.index')?'active':'' }}">
-                <a class="d-flex align-items-center" href="{{ route('tags.index') }}">
-                    <i data-feather='tag'></i>
-                    <span class="menu-title text-truncate">Tags</span>
-                </a>
-            </li>
-            <li class=" nav-item {{ Route::is('products.index')?'active':'' }}">
-                <a class="d-flex align-items-center" href="{{ route('products.index') }}">
-                    <i data-feather='shopping-cart'></i>
-                    <span class="menu-title text-truncate">Products</span>
-                </a>
-            </li>
+{{--            <li class=" nav-item {{ Route::is('products.index')?'active':'' }}">--}}
+{{--                <a class="d-flex align-items-center" href="{{ route('products.index') }}">--}}
+{{--                    <i data-feather='shopping-cart'></i>--}}
+{{--                    <span class="menu-title text-truncate">Products</span>--}}
+{{--                </a>--}}
+{{--            </li>--}}
         </ul>
     </div>
 </div>

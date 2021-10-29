@@ -3,14 +3,14 @@
         // On load Toast
         setTimeout(function () {
             toastr['success'](
-                "{{session('success')}}",
+                "<h5>{{session('success')}}</h5>",
                 'success!',
                 {
                     closeButton: true,
                     tapToDismiss: false,
                 }
             );
-        }, 2000);
+        }, 100);
     </script>
 @endif
 
@@ -19,13 +19,29 @@
         // On load Toast
         setTimeout(function () {
             toastr['error'](
-                "{{session('error')}}",
+                "<h5>{{session('error')}}</h5>",
                 'error!',
                 {
                     closeButton: true,
                     tapToDismiss: false,
                 }
             );
-        }, 2000);
+        }, 100);
+    </script>
+@endif
+
+@if (session('warning'))
+    <script>
+        // On load Toast
+        setTimeout(function () {
+            toastr['warning'](
+                "<h5>{{session('warning')}}</h5>",
+                'warning!',
+                {
+                    closeButton: true,
+                    tapToDismiss: false,
+                }
+            );
+        }, 100);
     </script>
 @endif

@@ -11,8 +11,8 @@ $(function () {
 
   var productsSwiper = $('.swiper-responsive-breakpoints'),
     productOption = $('.product-color-options li'),
-    btnCart = $('.btn-cart'),
-    wishlist = $('.btn-wishlist'),
+    // btnCart = $('.btn-cart'),
+    // wishlist = $('.btn-wishlist'),
     checkout = 'app-ecommerce-checkout.html',
     isRtl = $('html').attr('data-textdirection') === 'rtl';
 

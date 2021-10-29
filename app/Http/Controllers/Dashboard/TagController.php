@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class TagController extends Controller
@@ -29,6 +30,9 @@ class TagController extends Controller
     public function store(Request $request)
     {
         $request->validate(['name' => 'required|unique:tags']);
+        $request->merge([
+           'slug' => Str::slug($request->name)
+        ]);
         Tag::create($request->all());
 
         return redirect()->route('tags.index')->with([
@@ -61,6 +65,12 @@ class TagController extends Controller
 
     public function destroy(Tag $tag)
     {
+        if ($tag->products()->count())
+        {
+            return redirect()->route('tags.index')->with([
+                'warning' => "($tag->name) Tag Linked with Products, First Must Delete Linked Products"
+            ]);
+        }
         $tag->delete();
 
         return redirect()->route('tags.index')->with([

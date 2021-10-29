@@ -19,7 +19,13 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'phone',
         'password',
+        'image_path',
+    ];
+
+    protected $appends = [
+        'full_image_path',
     ];
 
     /**
@@ -40,4 +46,45 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getfullImagePathAttribute()
+    {
+        return asset('media/'.$this->image_path);
+    }
+
+    public function routeNotificationForMail($notification = null)
+    {
+        return $this->email;
+    }
+
+//    public function receivesBroadcastNotificationsOn()
+//    {
+//        return 'notification.' . $this->id;
+//    }
+
+    public function routeNotificationForNexmo($notification = null)
+    {
+        return $this->phone;
+    }
+
+    public function routeNotificationForTweetSms()
+    {
+        return $this->phone;
+    }
+
+    public function wishlists()
+    {
+        return $this->belongsToMany(Product::class, 'wishlists');
+    }
+    public function fav()
+    {
+        return $this->hasMany(Wishlist::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+
 }

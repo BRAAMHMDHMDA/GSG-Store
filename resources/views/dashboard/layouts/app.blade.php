@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html class="loading" lang="en" data-textdirection="ltr">
 <!-- BEGIN: Head-->
+<head>
+
 @include('dashboard.layouts._head')
 <!-- END: Head-->
+@yield('css')
+</head>
 
 <!-- BEGIN: Body-->
 
@@ -61,7 +65,7 @@
 <!-- BEGIN: Footer-->
 @include('dashboard.layouts._footer')
 <!-- END: Footer-->
-
+@yield('js')
 </body>
 <!-- END: Body-->
 

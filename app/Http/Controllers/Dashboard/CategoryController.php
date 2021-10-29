@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class CategoryController extends Controller
@@ -22,17 +23,17 @@ class CategoryController extends Controller
 //            ->orderBy('categories.created_at', 'DESC')
 //            ->orderBy('categories.name', 'ASC')
 //            ->get();
-        $categories = Category::with('children','parent')->latest()->paginate(10);
-         return view('dashboard.categories.index',[
-           'categories' => $categories
+        $categories = Category::with('children', 'parent')->orderBy('parent_id')->latest()->paginate(10);
+        return view('dashboard.categories.index', [
+            'categories' => $categories
         ]);
     }
 
 
     public function create()
     {
-        return view('dashboard.categories.create',[
-            'parents' => Category::latest()->get(['name','id']),
+        return view('dashboard.categories.create', [
+            'parents' => Category::latest()->get(['name', 'id']),
             'category' => new Category(),
         ]);
     }
@@ -40,12 +41,11 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
-        //$request->dd();
         $request->validate(Category::validateRules($request->id));
 
         $data = $request->all();
-        $data['slug'] = Str::slug($request->name);
-        if ($request->hasFile('image') && $request->file('image')->isValid()){
+//        $data['slug'] = Str::slug($request->name);
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
             $image = $request->file('image');
             $image = $image->store('/categories', 'media');
             $data['image'] = $image;
@@ -66,8 +66,8 @@ class CategoryController extends Controller
     public function edit($id)
     {
         $category = Category::findOrFail($id);
-        $parents = Category::where('id','<>',$category->id)->latest()->get(['id','name']);
-        return view('dashboard.categories.edit',[
+        $parents = Category::where('id', '<>', $category->id)->latest()->get(['id', 'name']);
+        return view('dashboard.categories.edit', [
             'category' => $category,
             'parents' => $parents
         ]);
@@ -80,32 +80,40 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
 
         $data = $request->all();
-        $data['slug'] = Str::slug($request->name);
-        if ($request->hasFile('image') && $request->file('image')->isValid()){
+//        $data['slug'] = Str::slug($request->name);
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
             $image = $request->file('image');
-            $image = $image->storeAs('/', $category->image ,'media');
+            if ($category->image){
+                $image = $image->storeAs('/', $category->image, 'media');
+            }else{
+                $image = $image->store('/categories', 'media');
+            }
             $data['image'] = $image;
-            $data['image'] = $image;
+        }
+        if (!$request->has('status')) {
+            $data['status'] = 'draft';
         }
 
         $category->update($data);
         return redirect()->route('categories.index')->with([
-           'success' => 'Category Updated Successfully'
+            'success' => 'Category Updated Successfully'
         ]);
     }
 
 
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-        $category = Category::whereId('100000')->delete();
-//        dd($category!=0);
-        if ($category!=0){
+        if ($category->products()->count()!=0)
+        {
             return redirect()->route('categories.index')->with([
-                'success' => 'Category Deleted Successfuly'
+                'warning' => "($category->name) Category have Products, Must Delete Linked Products in this Category"
             ]);
         }
-        return  redirect()->route('categories.index')->with([
-        'error' => 'Category Not deleted'
-    ]);
+        Storage::disk('media')->delete('image');
+        $category->ForceDelete();
+
+        return redirect()->route('categories.index')->with([
+            'success' => 'Category Deleted Successfuly'
+        ]);
     }
 }

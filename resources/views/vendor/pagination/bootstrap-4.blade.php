@@ -1,5 +1,5 @@
 @if ($paginator->hasPages())
-    <div class="d-flex">
+    <div class="d-flex float-left">
         <nav>
         <ul class="pagination">
             {{-- Previous Page Link --}}
@@ -44,7 +44,7 @@
             @endif
         </ul>
     </nav>
-        <div class="ml-auto">
+        <div class="ml-auto float-right">
         <p class="text-sm text-gray-700 leading-5">
             {!! __('Showing') !!}
             <span class="font-medium">{{ $paginator->firstItem() }}</span>

@@ -6,13 +6,14 @@
 <!-- END: Head-->
 
 <!-- BEGIN: Body-->
-<body class="vertical-layout vertical-menu-modern content-detached-left-sidebar navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="content-detached-left-sidebar">
+<body class="vertical-layout vertical-menu-modern content-detached-left-sidebar navbar-floating footer-static  "
+      data-open="click" data-menu="vertical-menu-modern" data-col="content-detached-left-sidebar">
 
 <!-- BEGIN: Header-->
 @include('dashboard.layouts._header')
 <!-- END: Header-->
 
-
+@include('dashboard.layouts._session')
 <!-- BEGIN: Main Menu-->
 @include('dashboard.layouts._aside')
 <!-- END: Main Menu-->
@@ -40,9 +41,15 @@
             </div>
             <div class="content-header-right text-md-right col-md-3 col-12 d-md-block d-none">
                 <div class="form-group breadcrumb-right">
-                    <a href="{{ route('products.create') }}">
-                        <button type="button" class="btn btn-primary"><i data-feather='plus'></i> Add New Product</button>
+                    <a href="{{ route('products.trash') }}">
+                        <button type="button" class="btn btn-sm btn-gradient-danger"><i data-feather='trash-2'></i> Trash
+                        </button>
                     </a>
+                    <a href="{{ route('products.create') }}">
+                        <button type="button" class="btn btn-sm btn-primary"><i data-feather='plus'></i> Add New Product
+                        </button>
+                    </a>
+
                 </div>
             </div>
         </div>
@@ -54,14 +61,16 @@
                         <div class="col-sm-12">
                             <div class="ecommerce-header-items">
                                 <div class="result-toggler">
-                                    <button class="navbar-toggler shop-sidebar-toggler" type="button" data-toggle="collapse">
+                                    <button class="navbar-toggler shop-sidebar-toggler" type="button"
+                                            data-toggle="collapse">
                                         <span class="navbar-toggler-icon d-block d-lg-none"><i data-feather="menu"></i></span>
                                     </button>
-                                    <div class="search-results">16285 results found</div>
+                                    <div class="search-results">{{$products->total()}} results found</div>
                                 </div>
                                 <div class="view-options d-flex">
                                     <div class="btn-group dropdown-sort">
-                                        <button type="button" class="btn btn-outline-primary dropdown-toggle mr-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <button type="button" class="btn btn-outline-primary dropdown-toggle mr-1"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <span class="active-sorting">Featured</span>
                                         </button>
                                         <div class="dropdown-menu">
@@ -72,11 +81,11 @@
                                     </div>
                                     <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                         <label class="btn btn-icon btn-outline-primary view-btn grid-view-btn">
-                                            <input type="radio" name="radio_options" id="radio_option1" checked />
+                                            <input type="radio" name="radio_options" id="radio_option1" checked/>
                                             <i data-feather="grid" class="font-medium-3"></i>
                                         </label>
                                         <label class="btn btn-icon btn-outline-primary view-btn list-view-btn">
-                                            <input type="radio" name="radio_options" id="radio_option2" />
+                                            <input type="radio" name="radio_options" id="radio_option2"/>
                                             <i data-feather="list" class="font-medium-3"></i>
                                         </label>
                                     </div>
@@ -96,9 +105,12 @@
                     <div class="row mt-1">
                         <div class="col-sm-12">
                             <div class="input-group input-group-merge">
-                                <input type="text" class="form-control search-product" id="shop-search" placeholder="Search Product" aria-label="Search..." aria-describedby="shop-search" />
+                                <input type="text" class="form-control search-product" id="shop-search"
+                                       placeholder="Search Product" aria-label="Search..."
+                                       aria-describedby="shop-search"/>
                                 <div class="input-group-append">
-                                    <span class="input-group-text"><i data-feather="search" class="text-muted"></i></span>
+                                    <span class="input-group-text"><i data-feather="search"
+                                                                      class="text-muted"></i></span>
                                 </div>
                             </div>
                         </div>
@@ -108,446 +120,138 @@
 
                 <!-- E-commerce Products Starts -->
                 <section id="ecommerce-products" class="grid-view">
-                    <div class="card ecommerce-card">
-                        <div class="item-img text-center">
-                            <a href="app-ecommerce-details.html">
-                                <img class="img-fluid card-img-top" src="{{ asset('dashboard_files/app-assets/images/pages/eCommerce/1.png') }}" alt="img-placeholder" /></a>
-                        </div>
-                        <div class="card-body">
-                            <div class="item-wrapper">
-                                <div class="item-rating">
-                                    <ul class="unstyled-list list-inline">
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <h6 class="item-price">$339.99</h6>
-                                </div>
+                    @foreach($products as $product)
+                        <div class="card ecommerce-card">
+                            <div class="item-img text-center">
+                                <a href="{{route('products.show',$product->id)}}">
+                                    <img
+                                        class="img-fluid card-img-top"
+                                        src="{{ $product->image_url }}"
+                                        alt="img-placeholder"
+                                    /></a>
                             </div>
-                            <h6 class="item-name">
-                                <a class="text-body" href="app-ecommerce-details.html">Apple Watch Series 5</a>
-                                <span class="card-text item-company">By <a href="javascript:void(0)" class="company-name">Apple</a></span>
-                            </h6>
-                            <p class="card-text item-description">
-                                On Retina display that never sleeps, so it’s easy to see the time and other important information, without
-                                raising or tapping the display. New location features, from a built-in compass to current elevation, help users
-                                better navigate their day, while international emergency calling1 allows customers to call emergency services
-                                directly from Apple Watch in over 150 countries, even without iPhone nearby. Apple Watch Series 5 is available
-                                in a wider range of materials, including aluminium, stainless steel, ceramic and an all-new titanium.
-                            </p>
-                        </div>
-                        <div class="item-options text-center">
-                            <div class="item-wrapper">
-                                <div class="item-cost">
-                                    <h4 class="item-price">$339.99</h4>
-                                </div>
-                            </div>
-                            <a href="javascript:void(0)" class="btn btn-light btn-wishlist">
-                                <i data-feather="heart"></i>
-                                <span>Wishlist</span>
-                            </a>
-                            <a href="javascript:void(0)" class="btn btn-primary btn-cart">
-                                <i data-feather="shopping-cart"></i>
-                                <span class="add-to-cart">Add to cart</span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="card ecommerce-card">
-                        <div class="item-img text-center">
-                            <a href="app-ecommerce-details.html">
-                                <img class="img-fluid card-img-top" src="{{ asset('dashboard_files/app-assets/images/pages/eCommerce/2.png') }}" alt="img-placeholder" />
-                            </a>
-                        </div>
-                        <div class="card-body">
-                            <div class="item-wrapper">
-                                <div class="item-rating">
-                                    <ul class="unstyled-list list-inline">
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <h6 class="item-price">$669.99</h6>
-                                </div>
-                            </div>
-                            <h6 class="item-name">
-                                <a class="text-body" href="app-ecommerce-details.html">Apple iPhone 11 (64GB, Black)</a>
-                                <span class="card-text item-company">By <a href="javascript:void(0)" class="company-name">Apple</a></span>
-                            </h6>
-                            <p class="card-text item-description">
-                                The Apple iPhone 11 is a great smartphone, which was loaded with a lot of quality features. It comes with a
-                                waterproof and dustproof body which is the key attraction of the device. The excellent set of cameras offer
-                                excellent images as well as capable of recording crisp videos. However, expandable storage and a fingerprint
-                                scanner would have made it a perfect option to go for around this price range.
-                            </p>
-                        </div>
-                        <div class="item-options text-center">
-                            <div class="item-wrapper">
-                                <div class="item-cost">
-                                    <h4 class="item-price">$699.99</h4>
-                                </div>
-                            </div>
-                            <a href="javascript:void(0)" class="btn btn-light btn-wishlist">
-                                <i data-feather="heart" class="text-danger"></i>
-                                <span>Wishlist</span>
-                            </a>
-                            <a href="javascript:void(0)" class="btn btn-primary btn-cart">
-                                <i data-feather="shopping-cart"></i>
-                                <span class="add-to-cart">Add to cart</span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="card ecommerce-card">
-                        <div class="item-img text-center">
-                            <a href="app-ecommerce-details.html"><img class="img-fluid card-img-top" src="{{ asset('dashboard_files/app-assets/images/pages/eCommerce/3.png') }}" alt="img-placeholder" /></a>
-                        </div>
-                        <div class="card-body">
-                            <div class="item-wrapper">
-                                <div class="item-rating">
-                                    <ul class="unstyled-list list-inline">
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <div class="item-cost">
-                                        <h6 class="item-price">$999.99</h6>
+                            <div class="card-body">
+                                <div class="item-wrapper">
+                                    <div class="item-rating">
+                                        <ul class="unstyled-list list-inline">
+                                            <li class="ratings-list-item">
+                                                <i data-feather="star" class="filled-star"></i>
+                                            </li>
+                                            <li class="ratings-list-item">
+                                                <i data-feather="star" class="filled-star"></i>
+                                            </li>
+                                            <li class="ratings-list-item">
+                                                <i data-feather="star" class="filled-star"></i>
+                                            </li>
+                                            <li class="ratings-list-item">
+                                                <i data-feather="star" class="filled-star"></i>
+                                            </li>
+                                            <li class="ratings-list-item">
+                                                <i data-feather="star" class="unfilled-star"></i>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h6 class="item-price">@if($product->sale_price)<del>{{$product->formatted_price}}</del> {{$product->formatted_sale_price}}  @else {{$product->formatted_price}} @endif</h6>
                                     </div>
                                 </div>
+                                <h6 class="item-name">
+                                    <a class="text-body" href="{{route('products.show',$product->id)}}">{{$product->name}}</a
+                                    >
+                                    <span class="card-text item-company"
+                                    >By
+                      <a href="javascript:void(0)" class="company-name"
+                      >{{$product->brand->name}}</a
+                      ></span
+                                    >
+                                </h6>
+                                <p class="card-text item-description">
+                                    {{ $product->description }}
+                                </p>
                             </div>
-                            <h6 class="item-name">
-                                <a class="text-body" href="app-ecommerce-details.html">Apple iMac 27-inch</a>
-                                <span class="card-text item-company">By <a href="javascript:void(0)" class="company-name">Apple</a></span>
-                            </h6>
-                            <p class="card-text item-description">
-                                The all-in-one for all. If you can dream it, you can do it on iMac. It’s beautifully & incredibly intuitive and
-                                packed with tools that let you take any idea to the next level. And the new 27-inch model elevates the
-                                experience in way, with faster processors and graphics, expanded memory and storage, enhanced audio and video
-                                capabilities, and an even more stunning Retina 5K display. It’s the desktop that does it all — better and faster
-                                than ever.
-                            </p>
-                        </div>
-                        <div class="item-options text-center">
-                            <div class="item-wrapper">
-                                <div class="item-cost">
-                                    <h4 class="item-price">$999.99</h4>
-                                    <p class="card-text shipping"><span class="badge badge-pill badge-light-success">Free Shipping</span></p>
+                            <div class="item-options text-center">
+                                <div class="item-wrapper">
+                                    <div class="item-cost">
+                                        <h4 class="item-price">@if($product->sale_price)<del>{{$product->formatted_price}}</del> {{$product->formatted_sale_price}}  @else {{$product->formatted_price}} @endif</h4>
+                                    </div>
                                 </div>
-                            </div>
-                            <a href="javascript:void(0)" class="btn btn-light btn-wishlist">
-                                <i data-feather="heart"></i>
-                                <span>Wishlist</span>
-                            </a>
-                            <a href="javascript:void(0)" class="btn btn-primary btn-cart">
-                                <i data-feather="shopping-cart"></i>
-                                <span class="add-to-cart">Add to cart</span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="card ecommerce-card">
-                        <div class="item-img text-center">
-                            <a href="app-ecommerce-details.html">
-                                <img class="img-fluid card-img-top" src="{{ asset('dashboard_files/app-assets/images/pages/eCommerce/4.png') }}" alt="img-placeholder" /></a>
-                        </div>
-                        <div class="card-body">
-                            <div class="item-wrapper">
-                                <div class="item-rating">
-                                    <ul class="unstyled-list list-inline">
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-                                    </ul>
-                                </div>
-                                <div class="item-cost">
-                                    <h6 class="item-price">$49.99</h6>
-                                </div>
-                            </div>
-                            <h6 class="item-name">
-                                <a class="text-body" href="app-ecommerce-details.html">OneOdio A71 Wired Headphones</a>
-                                <span class="card-text item-company">By <a href="javascript:void(0)" class="company-name">OneOdio</a></span>
-                            </h6>
-                            <p class="card-text item-description">
-                                Omnidirectional detachable boom mic upgrades the headphones into a professional headset for gaming, business,
-                                podcasting and taking calls on the go. Better pick up your voice. Control most electric devices through voice
-                                activation, or schedule a ride with Uber and order a pizza. OneOdio A71 Wired Headphones voice-controlled device
-                                turns any home into a smart device on a smartphone or tablet.
-                            </p>
-                        </div>
-                        <div class="item-options text-center">
-                            <div class="item-wrapper">
-                                <div class="item-cost">
-                                    <h4 class="item-price">$49.99</h4>
-                                </div>
-                            </div>
-                            <a href="javascript:void(0)" class="btn btn-light btn-wishlist">
-                                <i data-feather="heart"></i>
-                                <span>Wishlist</span>
-                            </a>
-                            <a href="javascript:void(0)" class="btn btn-primary btn-cart">
-                                <i data-feather="shopping-cart"></i>
-                                <span class="add-to-cart">Add to cart</span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="card ecommerce-card">
-                        <div class="item-img text-center">
-                            <a href="app-ecommerce-details.html">
-                                <img class="img-fluid card-img-top" src="{{ asset('dashboard_files/app-assets/images/pages/eCommerce/5.png') }}" alt="img-placeholder" />
-                            </a>
-                        </div>
-                        <div class="card-body">
-                            <div class="item-wrapper">
-                                <div class="item-rating">
-                                    <ul class="unstyled-list list-inline">
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-                                    </ul>
-                                </div>
-                                <div class="item-cost">
-                                    <h6 class="item-price">$999.99</h6>
-                                </div>
-                            </div>
-                            <h6 class="item-name">
-                                <a class="text-body" href="app-ecommerce-details.html">
-                                    Apple - MacBook Air® (Latest Model) - 13.3" Display - Silver
+                                <a href="{{route('products.edit',$product->id)}}"
+                                    class="btn btn-gradient-primary btn-wishlist">
+                                    <i data-feather="edit"></i>
+                                    <span>Edit</span>
                                 </a>
-                                <span class="card-text item-company">By <a href="javascript:void(0)" class="company-name">Apple</a></span>
-                            </h6>
-                            <p class="card-text item-description">
-                                MacBook Air is a thin, lightweight laptop from Apple. MacBook Air features up to 8GB of memory, a
-                                fifth-generation Intel Core processor, Thunderbolt 2, great built-in apps, and all-day battery life.1 Its thin,
-                                light, and durable enough to take everywhere you go-and powerful enough to do everything once you get there,
-                                better.
-                            </p>
-                        </div>
-                        <div class="item-options text-center">
-                            <div class="item-wrapper">
-                                <div class="item-cost">
-                                    <h4 class="item-price">$999.99</h4>
-                                </div>
+
+                                <form action="{{ route('products.destroy', $product->id) }}" method="post">
+                                    {{ csrf_field() }}
+                                    {{ method_field('delete') }}
+                                    <button class="btn btn-gradient-danger btn-cart delete" style="width: 100%">
+                                        <i data-feather="trash-2"></i>
+                                        <span class="add-to-cart">Trashing</span>
+                                    </button>
+                                </form>
                             </div>
-                            <a href="javascript:void(0)" class="btn btn-light btn-wishlist">
-                                <i data-feather="heart" class="text-danger"></i>
-                                <span>Wishlist</span>
-                            </a>
-                            <a href="javascript:void(0)" class="btn btn-primary btn-cart">
-                                <i data-feather="shopping-cart"></i>
-                                <span class="add-to-cart">Add to cart</span>
-                            </a>
                         </div>
-                    </div>
-                    <div class="card ecommerce-card">
-                        <div class="item-img text-center">
-                            <a href="app-ecommerce-details.html">
-                                <img class="img-fluid card-img-top" src="{{ asset('dashboard_files/app-assets/images/pages/eCommerce/6.png') }}" alt="img-placeholder" />
-                            </a>
-                        </div>
-                        <div class="card-body">
-                            <div class="item-wrapper">
-                                <div class="item-rating">
-                                    <ul class="unstyled-list list-inline">
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-                                    </ul>
-                                </div>
-                                <div class="item-cost">
-                                    <h6 class="item-price">$429.99</h6>
-                                </div>
-                            </div>
-                            <h6 class="item-name">
-                                <a class="text-body" href="app-ecommerce-details.html"> Switch Pro Controller </a>
-                                <span class="card-text item-company">By <a href="javascript:void(0)" class="company-name">Sharp</a></span>
-                            </h6>
-                            <p class="card-text item-description">
-                                The Nintendo Switch Pro Controller is one of the priciest "baseline" controllers in the current console
-                                generation, but it's also sturdy, feels good to play with, has an excellent direction pad, and features
-                                impressive motion sensors and vibration systems. On top of all of that, it uses Bluetooth, so you don't need an
-                                adapter to use it with your PC.
-                            </p>
-                        </div>
-                        <div class="item-options text-center">
-                            <div class="item-wrapper">
-                                <div class="item-cost">
-                                    <h4 class="item-price">$429.99</h4>
-                                    <p class="card-text shipping"><span class="badge badge-pill badge-light-success">Free Shipping</span></p>
-                                </div>
-                            </div>
-                            <a href="javascript:void(0)" class="btn btn-light btn-wishlist">
-                                <i data-feather="heart"></i>
-                                <span>Wishlist</span>
-                            </a>
-                            <a href="javascript:void(0)" class="btn btn-primary btn-cart">
-                                <i data-feather="shopping-cart"></i>
-                                <span class="add-to-cart">Add to cart</span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="card ecommerce-card">
-                        <div class="item-img text-center">
-                            <a href="app-ecommerce-details.html">
-                                <img class="img-fluid card-img-top" src="{{ asset('dashboard_files/app-assets/images/pages/eCommerce/7.png') }}" alt="img-placeholder" />
-                            </a>
-                        </div>
-                        <div class="card-body">
-                            <div class="item-wrapper">
-                                <div class="item-rating">
-                                    <ul class="unstyled-list list-inline">
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-                                    </ul>
-                                </div>
-                                <div class="item-cost">
-                                    <h6 class="item-price">$129.29</h6>
-                                </div>
-                            </div>
-                            <h6 class="item-name">
-                                <a class="text-body" href="app-ecommerce-details.html"> Google - Google Home - White/Slate fabric </a>
-                                <span class="card-text item-company">By <a href="javascript:void(0)" class="company-name">Google</a></span>
-                            </h6>
-                            <p class="card-text item-description">
-                                Simplify your everyday life with the Google Home, a voice-activated speaker powered by the Google Assistant. Use
-                                voice commands to enjoy music, get answers from Google and manage everyday tasks. Google Home is compatible with
-                                Android and iOS operating systems, and can control compatible smart devices such as Chromecast or Nest.
-                            </p>
-                        </div>
-                        <div class="item-options text-center">
-                            <div class="item-wrapper">
-                                <div class="item-cost">
-                                    <h4 class="item-price">$129.29</h4>
-                                    <p class="card-text shipping">
-                                        <span class="badge badge-pill badge-light-success">Free Shipping</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <a href="javascript:void(0)" class="btn btn-light btn-wishlist">
-                                <i data-feather="heart"></i>
-                                <span>Wishlist</span>
-                            </a>
-                            <a href="javascript:void(0)" class="btn btn-primary btn-cart">
-                                <i data-feather="shopping-cart"></i>
-                                <span class="add-to-cart">Add to cart</span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="card ecommerce-card">
-                        <div class="item-img text-center">
-                            <a href="app-ecommerce-details.html">
-                                <img class="img-fluid card-img-top" src="{{ asset('dashboard_files/app-assets/images/pages/eCommerce/8.png') }}" alt="img-placeholder" />
-                            </a>
-                        </div>
-                        <div class="card-body">
-                            <div class="item-wrapper">
-                                <div class="item-rating">
-                                    <ul class="unstyled-list list-inline">
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                    </ul>
-                                </div>
-                                <div class="item-cost">
-                                    <h6 class="item-price">$7999.99</h6>
-                                </div>
-                            </div>
-                            <h6 class="item-name">
-                                <a class="text-body" href="app-ecommerce-details.html"> Sony 4K Ultra HD LED TV </a>
-                                <span class="card-text item-company">By <a href="javascript:void(0)" class="company-name">Apple</a></span>
-                            </h6>
-                            <p class="card-text item-description">
-                                Sony 4K Ultra HD LED TV has 4K HDR Support. The TV provides clear visuals and provides distinct sound quality
-                                and an immersive experience. This TV has Yes HDMI ports & Yes USB ports. Connectivity options included are HDMI.
-                                You can connect various gadgets such as your laptop using the HDMI port. The TV comes with a 1 Year warranty.
-                            </p>
-                        </div>
-                        <div class="item-options text-center">
-                            <div class="item-wrapper">
-                                <div class="item-cost">
-                                    <h4 class="item-price">$29.99</h4>
-                                </div>
-                            </div>
-                            <a href="javascript:void(0)" class="btn btn-light btn-wishlist">
-                                <i data-feather="heart"></i>
-                                <span>Wishlist</span>
-                            </a>
-                            <a href="javascript:void(0)" class="btn btn-primary btn-cart">
-                                <i data-feather="shopping-cart"></i>
-                                <span class="add-to-cart">Add to cart</span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="card ecommerce-card">
-                        <div class="item-img text-center">
-                            <a href="app-ecommerce-details.html">
-                                <img class="img-fluid card-img-top" src="{{ asset('dashboard_files/app-assets/images/pages/eCommerce/9.png') }}" alt="img-placeholder" />
-                            </a>
-                        </div>
-                        <div class="card-body">
-                            <div class="item-wrapper">
-                                <div class="item-rating">
-                                    <ul class="unstyled-list list-inline">
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-                                    </ul>
-                                </div>
-                                <div class="item-cost">
-                                    <h6 class="item-price">$14.99</h6>
-                                </div>
-                            </div>
-                            <h6 class="item-name">
-                                <a class="text-body" href="app-ecommerce-details.html"> OnePlus 7 Pro </a>
-                                <span class="card-text item-company">By <a href="javascript:void(0)" class="company-name">Philips</a></span>
-                            </h6>
-                            <p class="card-text item-description">
-                                The OnePlus 7 Pro features a brand new design, with a glass back and front and curved sides. The phone feels
-                                very premium but’s it’s also very heavy. The Nebula Blue variant looks slick but it’s quite slippery, which
-                                makes single-handed use a real challenge. It has a massive 6.67-inch ‘Fluid AMOLED’ display with a QHD+
-                                resolution, 90Hz refresh rate and support for HDR 10+ content. The display produces vivid colours, deep blacks
-                                and has good viewing angles.
-                            </p>
-                        </div>
-                        <div class="item-options text-center">
-                            <div class="item-wrapper">
-                                <div class="item-cost">
-                                    <h4 class="item-price">$14.99</h4>
-                                </div>
-                            </div>
-                            <a href="javascript:void(0)" class="btn btn-light btn-wishlist">
-                                <i data-feather="heart"></i>
-                                <span>Wishlist</span>
-                            </a>
-                            <a href="javascript:void(0)" class="btn btn-primary btn-cart">
-                                <i data-feather="shopping-cart"></i>
-                                <span class="add-to-cart">Add to cart</span>
-                            </a>
-                        </div>
-                    </div>
+
+                    @endforeach
                 </section>
-                <!-- E-commerce Products Ends -->
+            {{--                <div class="card ecommerce-card">--}}
+            {{--                    <div class="item-img text-center">--}}
+            {{--                        <a href="app-ecommerce-details.html">--}}
+            {{--                            <img class="img-fluid card-img-top" src="{{ $product->image_url }}" alt="img-placeholder" /></a>--}}
+            {{--                    </div>--}}
+            {{--                    <div class="card-body">--}}
+            {{--                        <div class="item-wrapper">--}}
+            {{--                            <div class="item-rating">--}}
+            {{--                                <ul class="unstyled-list list-inline">--}}
+            {{--                                    <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>--}}
+            {{--                                    <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>--}}
+            {{--                                    <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>--}}
+            {{--                                    <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>--}}
+            {{--                                    <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>--}}
+            {{--                                </ul>--}}
+            {{--                            </div>--}}
+            {{--                            <div>--}}
+            {{--                                <h6 class="item-price">${{$product->price}}</h6>--}}
+            {{--                            </div>--}}
+            {{--                        </div>--}}
+            {{--                        <h6 class="item-name">--}}
+            {{--                            <a class="text-body" href="{{route('products.show',$product->id)}}">{{$product->name}}</a>--}}
+            {{--                            <span class="card-text item-company">By <a href="javascript:void(0)" class="company-name">Apple</a></span>--}}
+            {{--                        </h6>--}}
+            {{--                        <br>--}}
+            {{--                        <p class="badge badge-glow badge-light-dark">--}}
+            {{--                            <i data-feather='grid'></i> {{$product->category->name}}--}}
+            {{--                        </p>--}}
+            {{--                        <p class="card-text item-description">--}}
+            {{--                            {!! $product->description !!}--}}
+            {{--                        </p>--}}
+            {{--                    </div>--}}
+            {{--                    <div class="item-options text-center">--}}
+            {{--                        <div class="item-wrapper">--}}
+            {{--                            <div class="item-cost">--}}
+            {{--                                <h4 class="item-price">${{$product->price}}</h4>--}}
+            {{--                            </div>--}}
+            {{--                        </div>--}}
+            {{--                        <a  href="{{route('products.edit',$product->id)}}" style="text-decoration: none;color: inherit;cursor: auto;width: 50%;">--}}
+
+            {{--                            <button class="btn btn-gradient-primary btn-wishlist" style="width: 100%">--}}
+            {{--                                <i data-feather="edit"></i>--}}
+            {{--                                <span>Edit</span>--}}
+            {{--                            </button>--}}
+            {{--                        </a>--}}
+
+            {{--                        <form action="{{ route('products.destroy', $product->id) }}" method="post"--}}
+            {{--                              style="display: inline-block;width: 50%">--}}
+            {{--                            {{ csrf_field() }}--}}
+            {{--                            {{ method_field('delete') }}--}}
+            {{--                            <button class="delete btn btn-gradient-danger btn-cart" type="button" style="width: 100%">--}}
+            {{--                                <i data-feather="trash-2"></i>Delete--}}
+            {{--                            </button>--}}
+            {{--                        </form><!-- end of form -->--}}
+            {{--                    </div>--}}
+            {{--                </div>--}}
+
+            <!-- E-commerce Products Ends -->
 
                 <!-- E-commerce Pagination Starts -->
                 <section id="ecommerce-pagination">
@@ -555,15 +259,7 @@
                         <div class="col-sm-12">
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination justify-content-center mt-2">
-                                    <li class="page-item prev-item"><a class="page-link" href="javascript:void(0);"></a></li>
-                                    <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="javascript:void(0);">3</a></li>
-                                    <li class="page-item" aria-current="page"><a class="page-link" href="javascript:void(0);">4</a></li>
-                                    <li class="page-item"><a class="page-link" href="javascript:void(0);">5</a></li>
-                                    <li class="page-item"><a class="page-link" href="javascript:void(0);">6</a></li>
-                                    <li class="page-item"><a class="page-link" href="javascript:void(0);">7</a></li>
-                                    <li class="page-item next-item"><a class="page-link" href="javascript:void(0);"></a></li>
+                                    {{$products->links()}}
                                 </ul>
                             </nav>
                         </div>
@@ -590,31 +286,36 @@
                                 <ul class="list-unstyled price-range" id="price-range">
                                     <li>
                                         <div class="custom-control custom-radio">
-                                            <input type="radio" id="priceAll" name="price-range" class="custom-control-input" checked />
+                                            <input type="radio" id="priceAll" name="price-range"
+                                                   class="custom-control-input" checked/>
                                             <label class="custom-control-label" for="priceAll">All</label>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="custom-control custom-radio">
-                                            <input type="radio" id="priceRange1" name="price-range" class="custom-control-input" />
+                                            <input type="radio" id="priceRange1" name="price-range"
+                                                   class="custom-control-input"/>
                                             <label class="custom-control-label" for="priceRange1">&lt;=$10</label>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="custom-control custom-radio">
-                                            <input type="radio" id="priceRange2" name="price-range" class="custom-control-input" />
+                                            <input type="radio" id="priceRange2" name="price-range"
+                                                   class="custom-control-input"/>
                                             <label class="custom-control-label" for="priceRange2">$10 - $100</label>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="custom-control custom-radio">
-                                            <input type="radio" id="priceARange3" name="price-range" class="custom-control-input" />
+                                            <input type="radio" id="priceARange3" name="price-range"
+                                                   class="custom-control-input"/>
                                             <label class="custom-control-label" for="priceARange3">$100 - $500</label>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="custom-control custom-radio">
-                                            <input type="radio" id="priceRange4" name="price-range" class="custom-control-input" />
+                                            <input type="radio" id="priceRange4" name="price-range"
+                                                   class="custom-control-input"/>
                                             <label class="custom-control-label" for="priceRange4">&gt;= $500</label>
                                         </div>
                                     </li>
@@ -637,61 +338,77 @@
                                 <ul class="list-unstyled categories-list">
                                     <li>
                                         <div class="custom-control custom-radio">
-                                            <input type="radio" id="category1" name="category-filter" class="custom-control-input" checked />
+                                            <input type="radio" id="category1" name="category-filter"
+                                                   class="custom-control-input" checked/>
                                             <label class="custom-control-label" for="category1">Appliances</label>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="custom-control custom-radio">
-                                            <input type="radio" id="category2" name="category-filter" class="custom-control-input" />
+                                            <input type="radio" id="category2" name="category-filter"
+                                                   class="custom-control-input"/>
                                             <label class="custom-control-label" for="category2">Audio</label>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="custom-control custom-radio">
-                                            <input type="radio" id="category3" name="category-filter" class="custom-control-input" />
-                                            <label class="custom-control-label" for="category3">Cameras & Camcorders</label>
+                                            <input type="radio" id="category3" name="category-filter"
+                                                   class="custom-control-input"/>
+                                            <label class="custom-control-label" for="category3">Cameras &
+                                                Camcorders</label>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="custom-control custom-radio">
-                                            <input type="radio" id="category4" name="category-filter" class="custom-control-input" />
-                                            <label class="custom-control-label" for="category4">Car Electronics & GPS</label>
+                                            <input type="radio" id="category4" name="category-filter"
+                                                   class="custom-control-input"/>
+                                            <label class="custom-control-label" for="category4">Car Electronics &
+                                                GPS</label>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="custom-control custom-radio">
-                                            <input type="radio" id="category5" name="category-filter" class="custom-control-input" />
+                                            <input type="radio" id="category5" name="category-filter"
+                                                   class="custom-control-input"/>
                                             <label class="custom-control-label" for="category5">Cell Phones</label>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="custom-control custom-radio">
-                                            <input type="radio" id="category6" name="category-filter" class="custom-control-input" />
-                                            <label class="custom-control-label" for="category6">Computers & Tablets</label>
+                                            <input type="radio" id="category6" name="category-filter"
+                                                   class="custom-control-input"/>
+                                            <label class="custom-control-label" for="category6">Computers &
+                                                Tablets</label>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="custom-control custom-radio">
-                                            <input type="radio" id="category7" name="category-filter" class="custom-control-input" />
-                                            <label class="custom-control-label" for="category7">Health, Fitness & Beauty</label>
+                                            <input type="radio" id="category7" name="category-filter"
+                                                   class="custom-control-input"/>
+                                            <label class="custom-control-label" for="category7">Health, Fitness &
+                                                Beauty</label>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="custom-control custom-radio">
-                                            <input type="radio" id="category8" name="category-filter" class="custom-control-input" />
-                                            <label class="custom-control-label" for="category8">Office & School Supplies</label>
+                                            <input type="radio" id="category8" name="category-filter"
+                                                   class="custom-control-input"/>
+                                            <label class="custom-control-label" for="category8">Office & School
+                                                Supplies</label>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="custom-control custom-radio">
-                                            <input type="radio" id="category9" name="category-filter" class="custom-control-input" />
-                                            <label class="custom-control-label" for="category9">TV & Home Theater</label>
+                                            <input type="radio" id="category9" name="category-filter"
+                                                   class="custom-control-input"/>
+                                            <label class="custom-control-label" for="category9">TV & Home
+                                                Theater</label>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="custom-control custom-radio">
-                                            <input type="radio" id="category10" name="category-filter" class="custom-control-input" />
+                                            <input type="radio" id="category10" name="category-filter"
+                                                   class="custom-control-input"/>
                                             <label class="custom-control-label" for="category10">Video Games</label>
                                         </div>
                                     </li>
@@ -705,70 +422,72 @@
                                 <ul class="list-unstyled brand-list">
                                     <li>
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="productBrand1" />
+                                            <input type="checkbox" class="custom-control-input" id="productBrand1"/>
                                             <label class="custom-control-label" for="productBrand1">Insignia™</label>
                                         </div>
                                         <span>746</span>
                                     </li>
                                     <li>
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="productBrand2" checked />
+                                            <input type="checkbox" class="custom-control-input" id="productBrand2"
+                                                   checked/>
                                             <label class="custom-control-label" for="productBrand2">Samsung</label>
                                         </div>
                                         <span>633</span>
                                     </li>
                                     <li>
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="productBrand3" />
+                                            <input type="checkbox" class="custom-control-input" id="productBrand3"/>
                                             <label class="custom-control-label" for="productBrand3">Metra</label>
                                         </div>
                                         <span>591</span>
                                     </li>
                                     <li>
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="productBrand4" />
+                                            <input type="checkbox" class="custom-control-input" id="productBrand4"/>
                                             <label class="custom-control-label" for="productBrand4">HP</label>
                                         </div>
                                         <span>530</span>
                                     </li>
                                     <li>
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="productBrand5" checked />
+                                            <input type="checkbox" class="custom-control-input" id="productBrand5"
+                                                   checked/>
                                             <label class="custom-control-label" for="productBrand5">Apple</label>
                                         </div>
                                         <span>442</span>
                                     </li>
                                     <li>
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="productBrand6" />
+                                            <input type="checkbox" class="custom-control-input" id="productBrand6"/>
                                             <label class="custom-control-label" for="productBrand6">GE</label>
                                         </div>
                                         <span>394</span>
                                     </li>
                                     <li>
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="productBrand7" />
+                                            <input type="checkbox" class="custom-control-input" id="productBrand7"/>
                                             <label class="custom-control-label" for="productBrand7">Sony</label>
                                         </div>
                                         <span>350</span>
                                     </li>
                                     <li>
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="productBrand8" />
+                                            <input type="checkbox" class="custom-control-input" id="productBrand8"/>
                                             <label class="custom-control-label" for="productBrand8">Incipio</label>
                                         </div>
                                         <span>320</span>
                                     </li>
                                     <li>
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="productBrand9" />
+                                            <input type="checkbox" class="custom-control-input" id="productBrand9"/>
                                             <label class="custom-control-label" for="productBrand9">KitchenAid</label>
                                         </div>
                                         <span>318</span>
                                     </li>
                                     <li>
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="productBrand10" />
+                                            <input type="checkbox" class="custom-control-input" id="productBrand10"/>
                                             <label class="custom-control-label" for="productBrand10">Whirlpool</label>
                                         </div>
                                         <span>298</span>
@@ -783,11 +502,16 @@
                                 <div class="ratings-list">
                                     <a href="javascript:void(0)">
                                         <ul class="unstyled-list list-inline">
-                                            <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                            <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                            <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                            <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                            <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
+                                            <li class="ratings-list-item"><i data-feather="star"
+                                                                             class="filled-star"></i></li>
+                                            <li class="ratings-list-item"><i data-feather="star"
+                                                                             class="filled-star"></i></li>
+                                            <li class="ratings-list-item"><i data-feather="star"
+                                                                             class="filled-star"></i></li>
+                                            <li class="ratings-list-item"><i data-feather="star"
+                                                                             class="filled-star"></i></li>
+                                            <li class="ratings-list-item"><i data-feather="star"
+                                                                             class="unfilled-star"></i></li>
                                             <li>& up</li>
                                         </ul>
                                     </a>
@@ -796,11 +520,16 @@
                                 <div class="ratings-list">
                                     <a href="javascript:void(0)">
                                         <ul class="unstyled-list list-inline">
-                                            <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                            <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                            <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                            <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-                                            <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
+                                            <li class="ratings-list-item"><i data-feather="star"
+                                                                             class="filled-star"></i></li>
+                                            <li class="ratings-list-item"><i data-feather="star"
+                                                                             class="filled-star"></i></li>
+                                            <li class="ratings-list-item"><i data-feather="star"
+                                                                             class="filled-star"></i></li>
+                                            <li class="ratings-list-item"><i data-feather="star"
+                                                                             class="unfilled-star"></i></li>
+                                            <li class="ratings-list-item"><i data-feather="star"
+                                                                             class="unfilled-star"></i></li>
                                             <li>& up</li>
                                         </ul>
                                     </a>
@@ -809,11 +538,16 @@
                                 <div class="ratings-list">
                                     <a href="javascript:void(0)">
                                         <ul class="unstyled-list list-inline">
-                                            <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                            <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                            <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-                                            <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-                                            <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
+                                            <li class="ratings-list-item"><i data-feather="star"
+                                                                             class="filled-star"></i></li>
+                                            <li class="ratings-list-item"><i data-feather="star"
+                                                                             class="filled-star"></i></li>
+                                            <li class="ratings-list-item"><i data-feather="star"
+                                                                             class="unfilled-star"></i></li>
+                                            <li class="ratings-list-item"><i data-feather="star"
+                                                                             class="unfilled-star"></i></li>
+                                            <li class="ratings-list-item"><i data-feather="star"
+                                                                             class="unfilled-star"></i></li>
                                             <li>& up</li>
                                         </ul>
                                     </a>
@@ -822,11 +556,16 @@
                                 <div class="ratings-list">
                                     <a href="javascript:void(0)">
                                         <ul class="unstyled-list list-inline">
-                                            <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                            <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-                                            <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-                                            <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-                                            <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
+                                            <li class="ratings-list-item"><i data-feather="star"
+                                                                             class="filled-star"></i></li>
+                                            <li class="ratings-list-item"><i data-feather="star"
+                                                                             class="unfilled-star"></i></li>
+                                            <li class="ratings-list-item"><i data-feather="star"
+                                                                             class="unfilled-star"></i></li>
+                                            <li class="ratings-list-item"><i data-feather="star"
+                                                                             class="unfilled-star"></i></li>
+                                            <li class="ratings-list-item"><i data-feather="star"
+                                                                             class="unfilled-star"></i></li>
                                             <li>& up</li>
                                         </ul>
                                     </a>
@@ -857,7 +596,6 @@
 <!-- BEGIN: Footer-->
 {{--@include('dashboard.layouts._footer')--}}
 <footer class="footer footer-static footer-light">
-    <p class="clearfix mb-0"><span class="float-md-left d-block d-md-inline-block mt-25">COPYRIGHT &copy; 2021<a class="ml-25" href="https://1.envato.market/pixinvent_portfolio" target="_blank">Pixinvent</a><span class="d-none d-sm-inline-block">, All rights Reserved</span></span><span class="float-md-right d-none d-md-block">Hand-crafted & Made with<i data-feather="heart"></i></span></p>
 </footer>
 <button class="btn btn-primary btn-icon scroll-top" type="button"><i data-feather="arrow-up"></i></button>
 <!-- END: Footer-->
@@ -881,9 +619,10 @@
 <!-- BEGIN: Page JS-->
 <script src="{{ asset('dashboard_files/app-assets/js/scripts/pages/app-ecommerce.js') }}"></script>
 <!-- END: Page JS-->
+<script src="{{ asset('dashboard_files/app-assets/vendors/js/extensions/sweetalert2.all.min.js') }}"></script>
 
 <script>
-    $(window).on('load', function() {
+    $(window).on('load', function () {
         if (feather) {
             feather.replace({
                 width: 14,
@@ -891,6 +630,33 @@
             });
         }
     })
+
+    $('.delete').click(function (e) {
+        var that = $(this)
+        e.preventDefault();
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            customClass: {
+                confirmButton: 'btn btn-primary',
+                cancelButton: 'btn btn-outline-danger ml-1'
+            },
+            buttonsStyling: false
+        }).then(function (result) {
+            if (result.value) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Deleted!',
+                    text: 'Your file has been deleted.',
+                });
+                that.closest('form').submit();
+            }
+        });
+    });//end of confirmation delete
+
 </script>
 </body>
 <!-- END: Body-->
